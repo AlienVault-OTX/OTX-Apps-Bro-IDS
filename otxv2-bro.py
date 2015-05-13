@@ -60,15 +60,15 @@ def readTimestamp():
 
 def firstRun():
 	#Check if local.bro contains the reference
+	print "Installing files..."
 	blocal = False
 	with open("%s/local.bro" % (config.get('otx2', 'base_path')),'r') as f:
 		data = f.read()
 		f.close()
-		if data.find("@load alienvault-otx") != -1:
+		if data.find("@load OTX-Apps-Bro-IDS") != -1:
 			blocal = True
 
 	if not blocal:
-		print "load not present"
 		with open("%s/local.bro" % (config.get('otx2', 'base_path')),'ab') as f:
 			f.write("\n@load alienvault-otx\n")
 
@@ -76,6 +76,7 @@ def firstRun():
 	pulses = api.getall()
 	mtimestamp = None
 	files = []
+	print "Downloading data from Alienvault OTX..."
 	for p in pulses:
 		content = pulseToBRO(p)
 		fname = "%s/OTX-Apps-Bro-IDS/pulses/%s.intel" % (config.get('otx2', 'base_path'), p["id"])
@@ -156,4 +157,5 @@ if __name__ == "__main__":
 		getNewPulses()
 	else:
 		usage()
+
 
