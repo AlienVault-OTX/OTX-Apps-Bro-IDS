@@ -70,13 +70,13 @@ def firstRun():
 
 	if not blocal:
 		with open("%s/local.bro" % (config.get('otx2', 'base_path')),'ab') as f:
-			f.write("\n@load alienvault-otx\n")
+			f.write("\n@load OTX-Apps-Bro-IDS\n")
 
 	#Check if API is empty
+	print "Downloading data from Alienvault OTX..."
 	pulses = api.getall()
 	mtimestamp = None
 	files = []
-	print "Downloading data from Alienvault OTX..."
 	for p in pulses:
 		content = pulseToBRO(p)
 		fname = "%s/OTX-Apps-Bro-IDS/pulses/%s.intel" % (config.get('otx2', 'base_path'), p["id"])
@@ -157,5 +157,4 @@ if __name__ == "__main__":
 		getNewPulses()
 	else:
 		usage()
-
 
