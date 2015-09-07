@@ -27,7 +27,7 @@ MAP = {"IPv4":"Intel::ADDR",
 
 
 def pulseToBRO(pulse):
-	source = "Alienvault OTX - %s - %s" % (pulse["name"].encode('utf-8').replace("\t", ""), pulse["id"])
+	source = "Alienvault OTX - %s - %s" % (pulse["name"].replace("\t", ""), pulse["id"])
 	do_notice = "F"
 	if config.getboolean('otx2', 'do_notice') == True:
 		do_notice = "T"
@@ -39,7 +39,7 @@ def pulseToBRO(pulse):
 			itype = MAP[indicator["type"]]
 			pulses = pulses + "%s\t%s\t%s\t%s\t%s\n" % (indicator["indicator"], itype, source, "%spulse/%s" % (config.get('otx2', 'otx_base_url'), pulse["id"]), do_notice)
 
-	return pulses
+	return pulses.encode('utf-8')
 
 def saveTimestamp(timestamp=None):
 	mtimestamp = timestamp
